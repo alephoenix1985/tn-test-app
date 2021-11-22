@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import List from "./List/List";
 import Detail from "./Detail/Detail";
+import Import from "./Import/Import";
+import * as api from "./api.helper.js";
 
 export class App extends React.Component {
     constructor(props) {
@@ -22,13 +24,7 @@ export class App extends React.Component {
     }
 
     async finishTask(t) {
-        await fetch('http://localhost:4000/tasks/' + t.UUID, {
-            method: 'PUT',
-            body: JSON.stringify({completedAt: new Date().toISOString()}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        await api.put('/tasks/' + t.UUID, {completedAt: new Date().toISOString()})
         this.closeDetail()
         await this.getTaskS()
     }
@@ -38,8 +34,15 @@ export class App extends React.Component {
 
 
     async getTaskS() {
-        const tasks = await fetch('http://localhost:4000/tasks').then(r => r.json())
+        const tasks = await api.get('/tasks')
         this.setState({tasks});
+    }
+
+    async importTasks(target) {
+        const v = target.value;
+        target.value = ""
+        await api.get('/import/' + v)
+        await this.getTaskS()
     }
 
     render() {
@@ -48,6 +51,7 @@ export class App extends React.Component {
                 <Detail task={this.state.showTaskDetail}
                         finishTask={(d) => this.finishTask(d)}
                         onClose={(d) => this.closeDetail(d)}/>) : ''}
+            <Import importTask={(e) => this.importTasks(e)}/>
             <List openDetail={(t) => this.openDetail(t)}
                   tasks={this.state.tasks}/>
         </div>);

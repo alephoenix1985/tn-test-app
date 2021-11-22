@@ -1,0 +1,29 @@
+.import-box {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px black;
+}
+
+form {
+    display: flex;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+
+}
+input{
+    border-radius: 10px;
+}
+button {
+    background-color: darkcyan;
+    color: white;
+}

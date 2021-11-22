@@ -3,6 +3,8 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    max-height: 380px;
+    overflow: auto;
 }
 
 .task-item {
